@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing URL Detector</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0f0f0f;
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            font-size: 16px;
+            color: #aaa;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        label {
+            font-size: 12px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        select {
+            background: #0f0f0f;
+            border: 1px solid #333;
+            color: #e0e0e0;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #555;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #ffffff;
+            color: #000000;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+
+        button:hover { background: #dddddd; }
+
+        .result-box {
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .result-red {
+            background: #2a0a0a;
+            border: 1px solid #ff4444;
+            color: #ff4444;
+        }
+
+        .result-green {
+            background: #0a2a0a;
+            border: 1px solid #44ff44;
+            color: #44ff44;
+        }
+
+        .result-orange {
+            background: #2a1a0a;
+            border: 1px solid #ffaa44;
+            color: #ffaa44;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #222;
+            border: 1px solid #333;
+            color: #888;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Phishing URL Detector</h1>
+        <p class="subtitle">ML-powered website safety checker — Random Forest | 97% Accuracy</p>
+        <span class="badge">Built by Jyoti</span>
+
+        <div class="card">
+            <h2>Enter Website Features</h2>
+            <form action="/predict" method="POST">
+                <div class="grid">
+                    {% for feature in features %}
+                    <div class="form-group">
+                        <label>{{ feature.replace('_', ' ') }}</label>
+                        <select name="{{ feature }}">
+                            <option value="1">Legitimate (1)</option>
+                            <option value="-1">Suspicious (-1)</option>
+                            <option value="0">Neutral (0)</option>
+                        </select>
+                    </div>
+                    {% endfor %}
+                </div>
+                <button type="submit">Analyze Website</button>
+            </form>
+        </div>
+
+        {% if result %}
+        <div class="result-box result-{{ color }}">
+            {{ result }}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
